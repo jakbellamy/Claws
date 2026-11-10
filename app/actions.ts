@@ -39,3 +39,10 @@ export async function saveWishlist(f: FormData) {
   ]);
   redirect("/me");
 }
+
+export async function resetClaws() {
+  const me = await getSession();
+  if (!me) redirect("/");
+  await pool.query("DELETE FROM draw");
+  redirect("/me");
+}
