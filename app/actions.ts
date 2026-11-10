@@ -44,5 +44,6 @@ export async function resetClaws() {
   const me = await getSession();
   if (!me) redirect("/");
   await pool.query("DELETE FROM draw");
+  await pool.query("UPDATE users SET password_hash=NULL");
   redirect("/me");
 }
