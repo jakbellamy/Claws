@@ -1,10 +1,9 @@
 "use client";
 import { useRef, useState } from "react";
-import { saveFlair } from "@/app/actions";
 
 const COLORS = ["red", "yellow", "blue", "black", "white", "grey", "brown", "green", "pink"];
 
-export default function FlairCanvas({ initial }: { initial?: string }) {
+export default function FlairCanvas({ initial, save, label = "save" }: { initial?: string; save: (image: string) => Promise<void>; label?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const last = useRef<[number, number] | null>(null);
   const [color, setColor] = useState("black");
@@ -71,9 +70,9 @@ export default function FlairCanvas({ initial }: { initial?: string }) {
           />
         ))}
       </p>
-      <button onClick={() => setErase(true)} style={{ fontWeight: erase ? "bold" : "normal" }}>Eraser</button>{" "}
-      <button onClick={clear}>Clear</button>{" "}
-      <button onClick={() => saveFlair(ref.current!.toDataURL("image/png"))}>Save</button>
+      <button onClick={() => setErase(true)} style={{ fontWeight: erase ? "bold" : "normal" }}>eraser</button>{" "}
+      <button onClick={clear}>clear</button>{" "}
+      <button onClick={() => save(ref.current!.toDataURL("image/png"))}>{label}</button>
     </>
   );
 }

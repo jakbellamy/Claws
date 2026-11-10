@@ -1,5 +1,5 @@
 import { pool, ready } from "@/lib/db";
-import { clearFlair } from "@/app/actions";
+import { clearFlair, saveFlair } from "@/app/actions";
 import FlairCanvas from "./flair-canvas";
 
 export default async function AddFlair({ me }: { me: string }) {
@@ -14,12 +14,12 @@ export default async function AddFlair({ me }: { me: string }) {
           <p><img src={image} alt="Your flair" width={200} height={200} /></p>
           <details>
             <summary>update flair</summary>
-            <FlairCanvas initial={image} />
+            <FlairCanvas initial={image} save={saveFlair} />
           </details>
           <form action={clearFlair}><p><button>clear flair</button></p></form>
         </>
       ) : (
-        <FlairCanvas />
+        <FlairCanvas save={saveFlair} />
       )}
     </section>
   );

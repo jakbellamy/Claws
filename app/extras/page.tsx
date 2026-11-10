@@ -4,8 +4,9 @@ import { getSession } from "@/lib/auth";
 import { logout } from "@/app/actions";
 import ProposeRedraw from "./propose-redraw";
 import AddFlair from "./add-flair";
+import WallLink from "./wall-link";
 
-const EXTRAS = [ProposeRedraw, AddFlair];
+const EXTRAS = [ProposeRedraw, AddFlair, WallLink];
 
 export const dynamic = "force-dynamic";
 
