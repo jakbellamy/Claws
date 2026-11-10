@@ -10,7 +10,8 @@ export const PEOPLE = [
 ]
 
 export const CANNOT_DRAW: [string, string][] = [
-  ["Liz", "Paul"],
-  ["Marcus", "Tucker"],
-  ["Jakob", "Sabrina"],
+  // ["Liz", "Paul"],
+  // ["Marcus", "Tucker"],
+  // ["Jakob", "Sabrina"],
+  // I decided to allow anyone to draw anyone for now
 ];
