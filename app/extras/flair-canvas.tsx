@@ -4,10 +4,11 @@ import { saveFlair } from "@/app/actions";
 
 const COLORS = ["red", "yellow", "blue", "black", "white", "grey", "brown", "green", "pink"];
 
-export default function FlairCanvas() {
+export default function FlairCanvas({ initial }: { initial?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const last = useRef<[number, number] | null>(null);
   const [color, setColor] = useState("black");
+  const [erase, setErase] = useState(false);
 
   const at = (e: React.PointerEvent): [number, number] => {
     const r = ref.current!.getBoundingClientRect();
@@ -18,8 +19,8 @@ export default function FlairCanvas() {
     if (!last.current) return;
     const ctx = ref.current!.getContext("2d")!;
     const p = at(e);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 4;
+    ctx.strokeStyle = erase ? "white" : color;
+    ctx.lineWidth = erase ? 16 : 4;
     ctx.lineCap = "round";
     ctx.beginPath();
     ctx.moveTo(...last.current);
@@ -42,6 +43,11 @@ export default function FlairCanvas() {
           if (c && !c.dataset.init) {
             c.dataset.init = "1";
             clear();
+            if (initial) {
+              const img = new Image();
+              img.onload = () => c.getContext("2d")!.drawImage(img, 0, 0, 200, 200);
+              img.src = initial;
+            }
           }
         }}
         width={200}
@@ -59,12 +65,13 @@ export default function FlairCanvas() {
         {COLORS.map((c) => (
           <button
             key={c}
-            onClick={() => setColor(c)}
+            onClick={() => { setColor(c); setErase(false); }}
             aria-label={c}
-            style={{ background: c, width: 28, height: 28, border: c === color ? "3px solid orange" : "1px solid black" }}
+            style={{ background: c, width: 28, height: 28, border: !erase && c === color ? "3px solid orange" : "1px solid black" }}
           />
         ))}
       </p>
+      <button onClick={() => setErase(true)} style={{ fontWeight: erase ? "bold" : "normal" }}>Eraser</button>{" "}
       <button onClick={clear}>Clear</button>{" "}
       <button onClick={() => saveFlair(ref.current!.toDataURL("image/png"))}>Save</button>
     </>

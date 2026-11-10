@@ -14,7 +14,7 @@ export default async function AddFlair({ me }: { me: string }) {
           <p><img src={image} alt="Your flair" width={200} height={200} /></p>
           <details>
             <summary>update flair</summary>
-            <FlairCanvas />
+            <FlairCanvas initial={image} />
           </details>
           <form action={clearFlair}><p><button>clear flair</button></p></form>
         </>
