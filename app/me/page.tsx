@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { pool, ready } from "@/lib/db";
+import { redrawn } from "@/lib/redraw";
 import { whoDidIDraw } from "@/lib/draw";
 import { logout, saveWishlist } from "../actions";
 
@@ -13,11 +14,12 @@ export default async function Me() {
   await ready();
   const { rows } = await pool.query("SELECT wishlist FROM users WHERE name=$1", [me]);
   const wishlist = rows[0]?.wishlist?.trim();
+  const pt2 = await redrawn();
   const drew = await whoDidIDraw(me);
   return (
     <main>
-      <p><Link href="/">← Everyone</Link></p>
-      <h1>You Drew 🥁</h1>
+      <p><Link href="/">{`<-` } home</Link></p>
+      <h1>{pt2 ? "You Drew After The Redraw 🥁" : "You Drew 🥁"}</h1>
       <h2>
         {drew ? <Link href={`/u/${encodeURIComponent(drew)}`}>{drew}</Link> : "No draw found"}
       </h2>

@@ -20,6 +20,13 @@ export function ready() {
       CREATE TABLE IF NOT EXISTS draw (
         giver TEXT PRIMARY KEY,
         hash TEXT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS redraw_votes (
+        voter TEXT PRIMARY KEY
+      );
+      CREATE TABLE IF NOT EXISTS flair (
+        name TEXT PRIMARY KEY,
+        image TEXT NOT NULL
       );`);
     await pool.query(
       `INSERT INTO users (name) SELECT unnest($1::text[]) ON CONFLICT DO NOTHING`,
